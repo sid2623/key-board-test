@@ -1,1 +1,102 @@
+from pathlib import Path
+
+html = r'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f8fc">
+<title>Macaw Board – Keyboard Field Test</title>
+<style>
+:root{color-scheme:light;--bg:#f6f7fb;--card:#fff;--ink:#191b27;--muted:#777d8d;--line:#e6e8ef;--accent:#5b5ce2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:520px;margin:auto;padding:max(24px,env(safe-area-inset-top)) 17px max(32px,env(safe-area-inset-bottom))}
+header{padding:10px 3px 24px}.brand{font-weight:800;font-size:14px;letter-spacing:.02em;color:var(--accent)}h1{font-size:29px;letter-spacing:-1px;margin:12px 0 8px}.intro{font-size:14px;line-height:1.55;color:var(--muted);margin:0}
+.section{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:17px;margin:13px 0;box-shadow:0 5px 18px #1d24400a}
+.section h2{font-size:15px;margin:0 0 4px}.desc{font-size:11px;color:var(--muted);margin:0 0 15px}
+.field{margin-top:13px}.field label{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;margin-bottom:7px}.kind{font-size:10px;font-weight:600;color:#85899a}
+input,textarea,select{width:100%;min-height:48px;border:1px solid #dfe2eb;border-radius:11px;background:#fff;padding:12px 13px;font:15px inherit;font-family:inherit;color:var(--ink);outline:none}
+textarea{min-height:94px;resize:vertical;line-height:1.5}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #5b5ce21a}
+input[type=checkbox],input[type=radio]{width:18px;min-height:18px;accent-color:var(--accent)}
+.choice{display:flex;align-items:center;gap:9px;margin:10px 0;font-size:13px}
+button{border:0;border-radius:10px;padding:11px 14px;background:var(--accent);color:white;font-weight:700;font-size:12px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.secondary{background:#eeeefe;color:#4849b9}
+.note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}
+footer{text-align:center;color:#9297a5;font-size:11px;padding:18px 0}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="brand">MACAW BOARD · TEST LAB</div>
+<h1>Keyboard field test</h1>
+<p class="intro">Tap every field and check the keyboard layout, suggestions, autocorrect, predictions, emoji strip, and input behaviour.</p>
+</header>
+
+<section class="section">
+<h2>1. General text</h2><p class="desc">Default keyboard, autocorrect, capitalization and word prediction</p>
+<div class="field"><label>Normal text <span class="kind">text</span></label><input type="text" placeholder="Start typing a message"></div>
+<div class="field"><label>Sentence capitalization <span class="kind">text</span></label><input type="text" autocapitalize="sentences" placeholder="Type a new sentence"></div>
+<div class="field"><label>Person's name <span class="kind">text</span></label><input type="text" autocomplete="name" placeholder="Enter your full name"></div>
+<div class="field"><label>Search <span class="kind">search</span></label><input type="search" placeholder="Search anything"></div>
+<div class="field"><label>Multiline message <span class="kind">textarea</span></label><textarea placeholder="Write a longer message here..."></textarea></div>
+</section>
+
+<section class="section">
+<h2>2. Numeric fields</h2><p class="desc">Number pad, decimal, signed values and digit filtering</p>
+<div class="field"><label>Integer / PIN <span class="kind">number</span></label><input type="number" inputmode="numeric" placeholder="123456"></div>
+<div class="field"><label>Decimal amount <span class="kind">decimal</span></label><input type="number" inputmode="decimal" step="0.01" placeholder="1250.50"></div>
+<div class="field"><label>Telephone digits <span class="kind">tel</span></label><input type="tel" autocomplete="tel" placeholder="+91 98765 43210"></div>
+<div class="field"><label>OTP code <span class="kind">one-time-code</span></label><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit OTP"></div>
+<div class="field"><label>Quantity <span class="kind">numeric</span></label><input type="text" inputmode="numeric" placeholder="Enter quantity"></div>
+</section>
+
+<section class="section">
+<h2>3. Email and web</h2><p class="desc">Special characters, @, dot, slash and URL keyboard layouts</p>
+<div class="field"><label>Email address <span class="kind">email</span></label><input type="email" autocomplete="email" placeholder="hello@example.com"></div>
+<div class="field"><label>Website URL <span class="kind">url</span></label><input type="url" placeholder="https://example.com"></div>
+<div class="field"><label>Username / handle <span class="kind">text</span></label><input type="text" autocapitalize="none" spellcheck="false" placeholder="@username"></div>
+</section>
+
+<section class="section">
+<h2>4. Password fields</h2><p class="desc">Password manager/autofill and secure-entry behaviour</p>
+<div class="field"><label>Password <span class="kind">password</span></label><input type="password" autocomplete="current-password" placeholder="Enter password"></div>
+<div class="field"><label>New password <span class="kind">new-password</span></label><input type="password" autocomplete="new-password" placeholder="Create a password"></div>
+</section>
+
+<section class="section">
+<h2>5. Language and writing</h2><p class="desc">Transliteration, mixed-language typing, punctuation and emoji</p>
+<div class="field"><label>Romanized Telugu <span class="kind">text</span></label><input type="text" lang="te-Latn" placeholder="Nenu intiki velthunnanu"></div>
+<div class="field"><label>English + Telugu mix <span class="kind">text</span></label><input type="text" placeholder="Meeting ki late avuthanu, please wait"></div>
+<div class="field"><label>Emoji and symbols <span class="kind">text</span></label><input type="text" placeholder="I am happy today 😊"></div>
+<div class="field"><label>Punctuation test <span class="kind">textarea</span></label><textarea placeholder="Hello! How are you? Let's meet at 6:30 p.m."></textarea></div>
+<div class="field"><label>Long-form writing <span class="kind">textarea</span></label><textarea placeholder="Write a paragraph to test suggestions and corrections..."></textarea></div>
+</section>
+
+<section class="section">
+<h2>6. Selection controls</h2><p class="desc">Check that non-text controls do not unnecessarily open the keyboard</p>
+<div class="field"><label>Date <span class="kind">date</span></label><input type="date"></div>
+<div class="field"><label>Time <span class="kind">time</span></label><input type="time"></div>
+<div class="field"><label>Choose an option <span class="kind">select</span></label><select><option value="">Select one</option><option>Personal</option><option>Work</option><option>Other</option></select></div>
+<div class="field"><label>Checkbox <span class="kind">checkbox</span></label><div class="choice"><input type="checkbox" id="agree"><label for="agree">I agree to the test conditions</label></div></div>
+<div class="field"><label>Radio buttons <span class="kind">radio</span></label><div class="choice"><input type="radio" name="choice" id="one"><label for="one">Option one</label></div><div class="choice"><input type="radio" name="choice" id="two"><label for="two">Option two</label></div></div>
+</section>
+
+<section class="section">
+<h2>7. Keyboard behaviour checks</h2><p class="desc">Use these prompts to manually test prediction and correction</p>
+<div class="field"><label>Common typo correction <span class="kind">text</span></label><input type="text" placeholder="I recieved your mesage"></div>
+<div class="field"><label>Repeated words <span class="kind">text</span></label><input type="text" placeholder="the the quick brown fox"></div>
+<div class="field"><label>Emoji prediction <span class="kind">text</span></label><input type="text" placeholder="happy birthday congratulations"></div>
+<div class="field"><label>Numbers with words <span class="kind">text</span></label><input type="text" placeholder="Meet me at 7 pm tomorrow"></div>
+<div class="field"><label>Symbols and special characters <span class="kind">text</span></label><input type="text" placeholder="₹100 @ 10% #sale & more"></div>
+<div class="actions"><button type="button" onclick="document.querySelectorAll('input:not([type=checkbox]):not([type=radio]),textarea').forEach(x=>x.value='')">Clear text fields</button><button class="secondary" type="button" onclick="document.querySelector('input[type=text]').focus()">Focus first field</button></div>
+<p class="note">Note: HTML input types and inputmode are hints to Android. The exact keyboard layout depends on the active IME and Android version.</p>
+</section>
+<footer>Standalone local test page · No data is submitted or stored</footer>
+</main>
+</body>
+</html>'''
+path = Path("/mnt/data/macaw_keyboard_field_test.html")
+path.write_text(html, encoding="utf-8")
+print(path)
 
